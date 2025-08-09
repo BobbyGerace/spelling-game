@@ -1,8 +1,6 @@
 import { TEST } from "./game.js";
+import { LetterButtons } from "./letter-buttons.js";
 
-console.log("ayyy lmao");
 document.addEventListener("DOMContentLoaded", () => {
-  document.getElementById("test").addEventListener("click", () => {
-    alert(TEST);
-  });
+  LetterButtons.register();
 });
