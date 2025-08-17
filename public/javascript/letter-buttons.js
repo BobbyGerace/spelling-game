@@ -1,29 +1,79 @@
+const R = 20;
+const GAP = 3;
+
 export class LetterButtons extends HTMLElement {
   connectedCallback() {
+    this.letters = "ABCDEFG".split("");
+    this.cells = [];
+
     this.drawSvg();
   }
 
+  static get observedAttributes() {
+    return ["letters"];
+  }
+
   drawSvg() {
+    const coords = this.hexCenters();
+
+    this.cells = this.drawCells(coords);
+
+    this.letters = this.drawLetters(coords, this.letters);
+
     this.svg = hs(
       "svg",
       {
         viewBox: "-100 -100 200 200",
       },
-      [this.drawHexagon(0, 0)],
+      [...this.cells, ...this.letters],
     );
 
     this.appendChild(this.svg);
   }
 
+  hexCenters() {
+    const startAngle = Math.PI / 2;
+    const coords = [[0, 0]];
+
+    for (let i = 0; i < 6; i++) {
+      const angle = startAngle + (i * Math.PI) / 3;
+      const x = Math.cos(angle) * (R * Math.sqrt(3) + GAP);
+      const y = Math.sin(angle) * (R * Math.sqrt(3) + GAP);
+
+      coords.push([x, y]);
+    }
+
+    return coords;
+  }
+
+  drawLetters(coords, letters) {
+    return coords.map(([x, y], i) =>
+      hs(
+        "text",
+        {
+          x,
+          y,
+          "text-anchor": "middle",
+          "dominant-baseline": "central",
+          fill: "white",
+        },
+        letters[i],
+      ),
+    );
+  }
+
+  drawCells(coords) {
+    return coords.map(([x, y]) => this.drawHexagon(x, y));
+  }
+
   drawHexagon(cx, cy) {
-    const r = 40;
     const angle = Math.PI / 3;
 
     const points = [];
     for (let i = 0; i < 6; i++) {
       const currentAngle = angle * i;
-      const x = cx + r * Math.cos(currentAngle);
-      const y = cy + r * Math.sin(currentAngle);
+      const x = cx + R * Math.cos(currentAngle);
+      const y = cy + R * Math.sin(currentAngle);
       points.push(`${x},${y}`);
     }
 
