@@ -1,6 +1,11 @@
+@import "./styles/reset.css";
+@import "./components/letter-buttons.css";
+
 :root {
   --background: #14171d;
   --text-primary: #c5c9c7;
+  --highlight: #8ba4b0;
+  --background-secondary: #393b44;
   --game-width: 768px;
 }
 

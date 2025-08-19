@@ -1,0 +1,17 @@
+.letter-buttons__cell {
+  fill: var(--background-secondary);
+  cursor: pointer;
+}
+
+.letter-buttons__cell.letter-buttons__cell--central {
+  fill: var(--highlight);
+}
+
+.letter-buttons__letter {
+  fill: var(--text-primary);
+  pointer-events: none;
+}
+
+.letter-buttons__letter.letter-buttons__letter--central {
+  fill: var(--background);
+}

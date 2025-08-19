@@ -1,3 +1,5 @@
+import { hs } from "../lib/h.js";
+import { classes } from "../lib/classes.js";
 const R = 20;
 const GAP = 3;
 
@@ -24,6 +26,7 @@ export class LetterButtons extends HTMLElement {
       "svg",
       {
         viewBox: "-100 -100 200 200",
+        class: "letter-buttons",
       },
       [...this.cells, ...this.letters],
     );
@@ -55,7 +58,9 @@ export class LetterButtons extends HTMLElement {
           y,
           "text-anchor": "middle",
           "dominant-baseline": "central",
-          fill: "white",
+          class: classes("letter-buttons__letter", {
+            "letter-buttons__letter--central": i === 0,
+          }),
         },
         letters[i],
       ),
@@ -63,10 +68,10 @@ export class LetterButtons extends HTMLElement {
   }
 
   drawCells(coords) {
-    return coords.map(([x, y]) => this.drawHexagon(x, y));
+    return coords.map(([x, y], i) => this.drawHexagon(x, y, i === 0));
   }
 
-  drawHexagon(cx, cy) {
+  drawHexagon(cx, cy, isCentral = false) {
     const angle = Math.PI / 3;
 
     const points = [];
@@ -81,7 +86,9 @@ export class LetterButtons extends HTMLElement {
 
     return hs("path", {
       d,
-      fill: "#393B44",
+      class: classes("letter-buttons__cell", {
+        "letter-buttons__cell--central": isCentral,
+      }),
       stroke: "none",
     });
   }
@@ -90,43 +97,3 @@ export class LetterButtons extends HTMLElement {
     customElements.define("sg-letter-buttons", LetterButtons);
   }
 }
-
-const svgNS = "http://www.w3.org/2000/svg";
-
-const hs = (tag, props, children) => {
-  const propsIsChildType =
-    Array.isArray(props) || typeof props === "string" || props instanceof Node;
-  if (typeof children === "undefined" && propsIsChildType) {
-    children = props;
-    props = {};
-  }
-
-  const node = document.createElementNS(svgNS, tag);
-
-  for (const key in props) {
-    node.setAttribute(key, props[key]);
-  }
-
-  if (Array.isArray(children)) {
-    for (const child of children) {
-      appendChild(node, child);
-    }
-  } else if (children != null) {
-    appendChild(node, children);
-  }
-
-  return node;
-};
-
-const appendChild = (node, child) => {
-  if (typeof child === "string") {
-    const textNode = document.createTextNode(child);
-    node.appendChild(textNode);
-  } else if (child instanceof Node) {
-    node.appendChild(child);
-  } else {
-    console.warn(
-      `Ignoring uenexpcted value passed to appendChild: ${typeof child}`,
-    );
-  }
-};
