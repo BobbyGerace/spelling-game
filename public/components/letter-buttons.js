@@ -1,15 +1,31 @@
 import { hs } from "../lib/h.js";
 import { classes } from "../lib/classes.js";
+
 const R = 20;
 const GAP = 3;
 
 export class LetterButtons extends HTMLElement {
-  connectedCallback() {
-    this.letters = "ABCDEFG".split("");
-    this.cells = [];
-    this.texts = [];
+  cells = [];
+  texts = [];
 
+  connectedCallback() {
     this.drawSvg();
+  }
+
+  static get observedAttributes() {
+    return ["letters"];
+  }
+
+  attributeChangedCallback(name, oldValue, newValue) {
+    if (name === "letters") {
+      this.letters = newValue.split("");
+    }
+
+    this.update();
+  }
+
+  update() {
+    this.texts.forEach((text, i) => (text.textContent = this.letters[i]));
   }
 
   drawSvg() {
@@ -65,10 +81,12 @@ export class LetterButtons extends HTMLElement {
   }
 
   drawCells(coords) {
-    return coords.map(([x, y], i) => this.drawHexagon(x, y, i === 0));
+    return coords.map(([x, y], i) => this.drawHexagon(x, y, i));
   }
 
-  drawHexagon(cx, cy, isCentral = false) {
+  drawHexagon(cx, cy, i) {
+    const self = this;
+    const isCentral = i === 0;
     const angle = Math.PI / 3;
 
     const points = [];
@@ -87,6 +105,11 @@ export class LetterButtons extends HTMLElement {
         "letter-buttons__cell--central": isCentral,
       }),
       onclick: function () {
+        self.dispatchEvent(
+          new Event("letter-button-pressed", {
+            detail: { index: i, letter: self.letters[i] },
+          }),
+        );
         this.classList.add("letter-buttons__cell--pressed");
         setTimeout(() => {
           this.classList.remove("letter-buttons__cell--pressed");
@@ -119,8 +142,7 @@ export class LetterButtons extends HTMLElement {
       ];
     }
 
-    // Update the svg after shuffling
-    this.texts.forEach((text, i) => (text.textContent = this.letters[i]));
+    this.update();
   }
 
   static register() {
