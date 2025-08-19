@@ -7,12 +7,9 @@ export class LetterButtons extends HTMLElement {
   connectedCallback() {
     this.letters = "ABCDEFG".split("");
     this.cells = [];
+    this.texts = [];
 
     this.drawSvg();
-  }
-
-  static get observedAttributes() {
-    return ["letters"];
   }
 
   drawSvg() {
@@ -20,7 +17,7 @@ export class LetterButtons extends HTMLElement {
 
     this.cells = this.drawCells(coords);
 
-    this.letters = this.drawLetters(coords, this.letters);
+    this.texts = this.drawLetters(coords, this.letters);
 
     this.svg = hs(
       "svg",
@@ -28,7 +25,7 @@ export class LetterButtons extends HTMLElement {
         viewBox: "-100 -100 200 200",
         class: "letter-buttons",
       },
-      [...this.cells, ...this.letters],
+      [...this.cells, ...this.texts],
     );
 
     this.appendChild(this.svg);
@@ -89,8 +86,41 @@ export class LetterButtons extends HTMLElement {
       class: classes("letter-buttons__cell", {
         "letter-buttons__cell--central": isCentral,
       }),
+      onclick: function () {
+        this.classList.add("letter-buttons__cell--pressed");
+        setTimeout(() => {
+          this.classList.remove("letter-buttons__cell--pressed");
+        }, 100);
+      },
+      style: {
+        transformOrigin: `${cx}px ${cy}px`,
+      },
       stroke: "none",
     });
+  }
+
+  /**
+   *  This is a variation of Fisher-Yates with two tweaks
+   *  1. It leaves the first element (central letter) in place
+   *  2. The rest of the letters are guaranteed to be a derangement. i.e.,
+   *     none of them will retain their original position. (it just
+   *     doesn't look right if they don't all move)
+   */
+  shuffle() {
+    for (let i = 1; i < this.letters.length - 1; i++) {
+      // Shift the range so that i never equals randIdx
+      const randIdx =
+        Math.floor(Math.random() * (this.letters.length - 1 - i)) + i + 1;
+
+      // Swap the letters
+      [this.letters[i], this.letters[randIdx]] = [
+        this.letters[randIdx],
+        this.letters[i],
+      ];
+    }
+
+    // Update the svg after shuffling
+    this.texts.forEach((text, i) => (text.textContent = this.letters[i]));
   }
 
   static register() {

@@ -1,10 +1,15 @@
 .letter-buttons__cell {
   fill: var(--background-secondary);
   cursor: pointer;
+  transition: all 0.1s ease-in-out;
 }
 
 .letter-buttons__cell.letter-buttons__cell--central {
   fill: var(--highlight);
+}
+
+.letter-buttons__cell.letter-buttons__cell--pressed {
+  transform: scale(95%);
 }
 
 .letter-buttons__letter {

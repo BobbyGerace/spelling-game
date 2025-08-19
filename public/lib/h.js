@@ -10,7 +10,13 @@ const createH = (namespace) => (tag, props, children) => {
 
   for (const key in props) {
     // TODO: Maybe make a special case to handle style as an object
-    node.setAttribute(key, props[key]);
+    if (key.startsWith("on")) {
+      node[key] = props[key];
+    } else if (key === "style" && typeof props[key] !== "string") {
+      applyStyles(node, props[key]);
+    } else {
+      node.setAttribute(key, props[key]);
+    }
   }
 
   if (Array.isArray(children)) {
@@ -34,6 +40,12 @@ const appendChild = (node, child) => {
     console.warn(
       `Ignoring uenexpcted value passed to appendChild: ${typeof child}`,
     );
+  }
+};
+
+const applyStyles = (node, styles) => {
+  for (const key in styles) {
+    node.style[key] = styles[key];
   }
 };
 
