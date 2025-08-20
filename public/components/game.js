@@ -7,7 +7,7 @@ export class Game extends HTMLElement {
     this.model = new Model(this.letters);
 
     this.render();
-    this.bindEvents();
+    this.bindListeners();
   }
 
   render() {
@@ -18,8 +18,8 @@ export class Game extends HTMLElement {
     this.appendChild(this.letterButtons);
   }
 
-  bindEvents() {
-    this.addEventListener(
+  bindListeners() {
+    this.letterButtons.addEventListener(
       "letter-button-pressed",
       this.handleLetterButtonPress,
     );
@@ -27,6 +27,7 @@ export class Game extends HTMLElement {
 
   handleLetterButtonPress = (event) => {
     this.model.inputLetter(event.detail.letter);
+    this.input.textContent = this.model.input;
   };
 
   static register() {

@@ -106,7 +106,7 @@ export class LetterButtons extends HTMLElement {
       }),
       onclick: function () {
         self.dispatchEvent(
-          new Event("letter-button-pressed", {
+          new CustomEvent("letter-button-pressed", {
             detail: { index: i, letter: self.letters[i] },
           }),
         );
