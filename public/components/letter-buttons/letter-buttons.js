@@ -1,5 +1,5 @@
-import { hs } from "../lib/h.js";
-import { classes } from "../lib/classes.js";
+import { hs } from "../../lib/h.js";
+import { classes } from "../../lib/classes.js";
 
 const R = 20;
 const GAP = 3;
