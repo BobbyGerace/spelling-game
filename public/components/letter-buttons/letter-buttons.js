@@ -87,6 +87,7 @@ export class LetterButtons extends HTMLElement {
   }
 
   drawRoundedHexagon(cx, cy, i) {
+    const self = this;
     const isCentral = i === 0;
 
     let d = roundedHexPath(cx, cy, R, CORNER_R);
@@ -97,9 +98,9 @@ export class LetterButtons extends HTMLElement {
         "letter-buttons__cell--central": isCentral,
       }),
       onclick: function (event) {
-        this.dispatchEvent(
+        self.dispatchEvent(
           new CustomEvent("letter-button-pressed", {
-            detail: { index: i, letter: event.currentTarget.letters[i] },
+            detail: { index: i, letter: self.letters[i] },
           }),
         );
         this.classList.add("letter-buttons__cell--pressed");
