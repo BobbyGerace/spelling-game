@@ -1,8 +1,10 @@
 import { hs } from "../../lib/h.js";
 import { classes } from "../../lib/classes.js";
+import { roundedHexPath } from "../../lib/rounded-hex-path.js";
 
 const R = 20;
 const GAP = 3;
+const CORNER_R = 5;
 
 export class LetterButtons extends HTMLElement {
   cells = [];
@@ -81,33 +83,23 @@ export class LetterButtons extends HTMLElement {
   }
 
   drawCells(coords) {
-    return coords.map(([x, y], i) => this.drawHexagon(x, y, i));
+    return coords.map(([x, y], i) => this.drawRoundedHexagon(x, y, i));
   }
 
-  drawHexagon(cx, cy, i) {
-    const self = this;
+  drawRoundedHexagon(cx, cy, i) {
     const isCentral = i === 0;
-    const angle = Math.PI / 3;
 
-    const points = [];
-    for (let i = 0; i < 6; i++) {
-      const currentAngle = angle * i;
-      const x = cx + R * Math.cos(currentAngle);
-      const y = cy + R * Math.sin(currentAngle);
-      points.push(`${x},${y}`);
-    }
-
-    const d = `M${points.join("L")}Z`;
+    let d = roundedHexPath(cx, cy, R, CORNER_R);
 
     return hs("path", {
       d,
       class: classes("letter-buttons__cell", {
         "letter-buttons__cell--central": isCentral,
       }),
-      onclick: function () {
-        self.dispatchEvent(
+      onclick: function (event) {
+        this.dispatchEvent(
           new CustomEvent("letter-button-pressed", {
-            detail: { index: i, letter: self.letters[i] },
+            detail: { index: i, letter: event.currentTarget.letters[i] },
           }),
         );
         this.classList.add("letter-buttons__cell--pressed");
