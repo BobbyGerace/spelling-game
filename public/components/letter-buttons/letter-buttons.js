@@ -2,9 +2,9 @@ import { hs } from "../../lib/h.js";
 import { classes } from "../../lib/classes.js";
 import { roundedHexPath } from "../../lib/rounded-hex-path.js";
 
-const R = 20;
-const GAP = 3;
-const CORNER_R = 5;
+const R = 30;
+const GAP = 5;
+const CORNER_R = 7;
 
 export class LetterButtons extends HTMLElement {
   cells = [];

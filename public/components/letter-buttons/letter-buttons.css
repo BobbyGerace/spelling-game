@@ -1,3 +1,8 @@
+sg-letter-buttons {
+  width: 100%;
+  max-width: 500px;
+}
+
 .letter-buttons__cell {
   fill: var(--background-secondary);
   cursor: pointer;

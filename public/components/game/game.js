@@ -1,5 +1,5 @@
 import { h } from "../../lib/h.js";
-import { Model } from "../model.js";
+import { Model } from "../../model.js";
 
 export class Game extends HTMLElement {
   connectedCallback() {
@@ -11,8 +11,10 @@ export class Game extends HTMLElement {
   }
 
   render() {
-    this.input = h("div", { class: "game__input" });
-    this.appendChild(this.input);
+    this.inputField = h("sg-input-field", {
+      "central-letter": this.letters[0],
+    });
+    this.appendChild(this.inputField);
 
     this.letterButtons = h("sg-letter-buttons", { letters: this.letters });
     this.appendChild(this.letterButtons);
@@ -26,8 +28,11 @@ export class Game extends HTMLElement {
   }
 
   handleLetterButtonPress = (event) => {
-    this.model.inputLetter(event.detail.letter);
-    this.input.textContent = this.model.input;
+    const letter = event.detail.letter;
+    const accepted = this.model.inputLetter(letter);
+    if (accepted) {
+      this.inputField.appendLetter(letter);
+    }
   };
 
   static register() {

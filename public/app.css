@@ -1,5 +1,7 @@
 @import "./styles/reset.css";
 @import "./components/letter-buttons/letter-buttons.css";
+@import "./components/input-field/input-field.css";
+@import "./components/game/game.css";
 
 :root {
   --background: #14171d;

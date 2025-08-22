@@ -6,7 +6,11 @@ export class Model {
   }
 
   inputLetter(letter) {
-    this.input += letter;
+    if (this.letters.includes(letter)) {
+      this.input += letter;
+      return true;
+    }
+    return false;
   }
 
   clearInput() {
