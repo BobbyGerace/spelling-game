@@ -1,30 +1,55 @@
+import { GameData } from "../../lib/game-data.js";
 import { h } from "../../lib/h.js";
 
 export class SelectGame extends HTMLElement {
-  connectedCallback() {
+  async connectedCallback() {
     this.renderMenu();
+    this.renderLoading();
+
+    await GameData.preloadDataBank();
+
+    this.loadComplete();
   }
 
   renderMenu() {
-    this.appendChild(
-      h("div", { class: "select-game__menu" }, [
+    this.menu = h(
+      "div",
+      { class: "select-game__menu", style: { display: "none" } },
+      [
         h(
           "button",
           {
-            onclick: () => {
-              [...this.children].forEach((c) => this.removeChild(c));
-              this.renderGame();
-            },
+            onclick: this.handleRandomGame.bind(this),
           },
           "Random Game",
         ),
         h("button", {}, "Select Letters"),
-      ]),
+      ],
     );
+
+    this.appendChild(this.menu);
   }
 
-  renderGame() {
-    this.appendChild(h("sg-game", { letters: "OMNETIZ" }));
+  handleRandomGame() {
+    [...this.children].forEach((c) => this.removeChild(c));
+    this.renderGame(GameData.randomGame());
+  }
+
+  renderLoading() {
+    this.loading = h("div", { class: "select-game__loading" }, "Loading...");
+    this.appendChild(this.loading);
+  }
+
+  loadComplete() {
+    this.loading.style.display = "none";
+    this.menu.style.display = "block";
+  }
+
+  renderGame(gameData) {
+    const game = h("sg-game");
+    game.gameData = gameData;
+    console.log("GD", gameData);
+    this.appendChild(game);
   }
 
   static register() {

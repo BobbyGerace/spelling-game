@@ -1,8 +1,9 @@
 export class Model {
   input = "";
 
-  constructor(letters) {
-    this.letters = letters;
+  constructor(gameData) {
+    this.gameData = gameData;
+    this.letters = gameData.letters;
   }
 
   inputLetter(letter) {

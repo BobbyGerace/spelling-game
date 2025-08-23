@@ -1,0 +1,87 @@
+let cachedWordList = null;
+let cachedGameList = null;
+
+export class GameData {
+  constructor(letters, totalWords, totalPoints) {
+    this.letters = letters;
+    this.totalWords = totalWords;
+    this.totalPoints = totalPoints;
+    this.wordList = this.discoverWords();
+  }
+
+  discoverWords() {
+    const words = [];
+    const set = new Set(this.letters.split(""));
+    const centralLetter = this.letters[0];
+
+    for (const word of cachedWordList) {
+      const chars = word.split("");
+      if (chars.includes(centralLetter) && chars.every((c) => set.has(c))) {
+        words.push(word);
+      }
+    }
+
+    return words;
+  }
+
+  static async preloadDataBank() {
+    if (cachedGameList && cachedWordList) return;
+
+    const wordsPromise = fetch("/dictionary.csv").then((res) => res.text());
+    const gamesPromise = fetch("/game_stats.csv").then((res) => res.text());
+
+    const [wordsStr, gamesStr] = await Promise.all([
+      wordsPromise,
+      gamesPromise,
+    ]);
+
+    cachedWordList = parseWords(wordsStr);
+    cachedGameList = parseGames(gamesStr);
+  }
+
+  static randomGame() {
+    if (!cachedGameList || !cachedWordList) {
+      throw new Error("Tried to create game before load finished");
+    }
+
+    const randIdx = Math.floor(Math.random() * cachedGameList.length);
+    const [letters, centralLetter, totalWords, totalPoints] =
+      cachedGameList[randIdx];
+
+    // Rearrange letters so that central letter comes first
+    const orderedLetters =
+      centralLetter +
+      letters
+        .split("")
+        .filter((c) => c !== centralLetter)
+        .join("");
+
+    return new GameData(letters, totalWords, totalPoints);
+  }
+}
+
+const parseWords = (wordsStr) => {
+  return wordsStr
+    .split("\n")
+    .map((w) => w.trim().toUpperCase())
+    .filter((w) => w.length >= 4);
+};
+
+const parseGames = (gamesStr) => {
+  return gamesStr
+    .trim()
+    .split("\n")
+    .slice(1)
+    .map((line) => {
+      const [letters, centralLetter, totalWordsStr, totalPointsStr] = line
+        .trim()
+        .split(",");
+
+      return [
+        letters.toUpperCase(),
+        centralLetter.toUpperCase(),
+        parseInt(totalWordsStr),
+        parseInt(totalPointsStr),
+      ];
+    });
+};

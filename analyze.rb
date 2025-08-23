@@ -164,6 +164,6 @@ class Score
   end
 end
 
-Analyzer.new('dictionary.txt', 'combo_stats.csv', 30, 60).run
+Analyzer.new('dictionary.csv', 'game_stats.csv', 30, 60).run
 
 

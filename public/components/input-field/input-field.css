@@ -4,8 +4,26 @@ sg-input-field {
   font-size: 3em;
   line-height: 1.2;
   height: 1.2em;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+sg-input-field::after {
+  content: "";
+  display: inline-block;
+  height: 1em;
+  margin: 0.1em;
+  border-right: 2px solid var(--highlight);
+  animation: blink 1s step-start 0s infinite;
 }
 
 .input-field__letter.input-field__letter--central {
   color: var(--highlight);
+}
+
+@keyframes blink {
+  50% {
+    opacity: 0;
+  }
 }

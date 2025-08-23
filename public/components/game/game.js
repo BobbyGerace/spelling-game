@@ -3,8 +3,11 @@ import { Model } from "../../model.js";
 
 export class Game extends HTMLElement {
   connectedCallback() {
-    this.letters = this.getAttribute("letters");
-    this.model = new Model(this.letters);
+    if (!this.gameData) {
+      throw new Error("Game connected with no data");
+    }
+
+    this.model = new Model(this.gameData);
 
     this.render();
     this.bindListeners();
@@ -12,11 +15,13 @@ export class Game extends HTMLElement {
 
   render() {
     this.inputField = h("sg-input-field", {
-      "central-letter": this.letters[0],
+      "central-letter": this.gameData.letters[0],
     });
     this.appendChild(this.inputField);
 
-    this.letterButtons = h("sg-letter-buttons", { letters: this.letters });
+    this.letterButtons = h("sg-letter-buttons", {
+      letters: this.gameData.letters,
+    });
     this.appendChild(this.letterButtons);
   }
 

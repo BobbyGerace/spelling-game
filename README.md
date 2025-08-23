@@ -1,4 +1,4 @@
-# Spelling Game
+# Spelling Game (WIP)
 
 A clone of a popular word game written using vanilla HTML / JS / CSS.
 
