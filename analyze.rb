@@ -59,7 +59,11 @@ class Analyzer
 
   def compute_combo_stats!
     @combos.each do |combo|
-      combo.possible_fingerprints.each do |fingerprint|
+      fingerprints = combo.possible_fingerprints
+
+      raise "Not 127" if fingerprints.size != 127
+
+      fingerprints.each do |fingerprint|
         fingerprint_score = @fingerprint_map[fingerprint]
 
         fingerprint.chars.each do |central_letter|
@@ -164,6 +168,6 @@ class Score
   end
 end
 
-Analyzer.new('dictionary.csv', 'game_stats.csv', 30, 60).run
+Analyzer.new(ARGV[0], ARGV[1], 30, 60).run
 
 

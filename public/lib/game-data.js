@@ -7,6 +7,12 @@ export class GameData {
     this.totalWords = totalWords;
     this.totalPoints = totalPoints;
     this.wordList = this.discoverWords();
+
+    if (this.wordList.length !== totalWords) {
+      console.warn(
+        `Word list does not match expected length. Expected ${this.totalWords} but got ${this.wordList.length}`,
+      );
+    }
   }
 
   discoverWords() {
@@ -56,7 +62,7 @@ export class GameData {
         .filter((c) => c !== centralLetter)
         .join("");
 
-    return new GameData(letters, totalWords, totalPoints);
+    return new GameData(orderedLetters, totalWords, totalPoints);
   }
 }
 

@@ -48,7 +48,6 @@ export class SelectGame extends HTMLElement {
   renderGame(gameData) {
     const game = h("sg-game");
     game.gameData = gameData;
-    console.log("GD", gameData);
     this.appendChild(game);
   }
 
