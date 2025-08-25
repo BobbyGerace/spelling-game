@@ -7,7 +7,10 @@ export class SelectGame extends HTMLElement {
     this.renderMenu();
     this.renderLoading();
 
-    await GameData.preloadDataBank();
+    // Better than having a super quick flash
+    const wait = new Promise((resolve) => setTimeout(resolve, 750));
+
+    await Promise.all([GameData.preloadDataBank(), wait]);
 
     this.loadComplete();
   }

@@ -7,10 +7,17 @@ sg-select-game {
 }
 
 .select-game__menu {
+  height: 100px;
   margin-top: 16px;
   text-align: center;
   display: flex;
   flex-direction: column;
   gap: 16px;
   align-items: center;
+}
+
+.select-game__loading {
+  margin-top: 16px;
+  height: 100px;
+  text-align: center;
 }
