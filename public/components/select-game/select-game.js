@@ -3,12 +3,19 @@ import { h } from "../../lib/h.js";
 
 export class SelectGame extends HTMLElement {
   async connectedCallback() {
+    this.renderTitle();
     this.renderMenu();
     this.renderLoading();
 
     await GameData.preloadDataBank();
 
     this.loadComplete();
+  }
+
+  renderTitle() {
+    this.titleAnim = h("sg-title-animation");
+
+    this.appendChild(this.titleAnim);
   }
 
   renderMenu() {
@@ -19,11 +26,18 @@ export class SelectGame extends HTMLElement {
         h(
           "button",
           {
+            class: "btn btn--primary",
             onclick: this.handleRandomGame.bind(this),
           },
           "Random Game",
         ),
-        h("button", {}, "Select Letters"),
+        h(
+          "button",
+          {
+            class: "btn",
+          },
+          "Select Letters",
+        ),
       ],
     );
 
@@ -42,7 +56,7 @@ export class SelectGame extends HTMLElement {
 
   loadComplete() {
     this.loading.style.display = "none";
-    this.menu.style.display = "block";
+    this.menu.style.display = "flex";
   }
 
   renderGame(gameData) {

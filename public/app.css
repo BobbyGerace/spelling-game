@@ -1,6 +1,8 @@
 @import "./styles/reset.css";
 @import "./components/letter-buttons/letter-buttons.css";
 @import "./components/input-field/input-field.css";
+@import "./components/title-animation/title-animation.css";
+@import "./components/select-game/select-game.css";
 @import "./components/game/game.css";
 
 :root {
@@ -8,6 +10,7 @@
   --text-primary: #c5c9c7;
   --highlight: #8ba4b0;
   --background-secondary: #393b44;
+  --border: #a4a7a4;
   --game-width: 768px;
 }
 
@@ -22,10 +25,25 @@ body {
     Tahoma,
     sans-serif;
   color: var(--text-primary);
+  height: 100%;
 }
 
 .container {
   margin-left: auto;
   margin-right: auto;
   max-width: var(--game-width);
+  height: 100%;
+}
+
+.btn {
+  border-radius: 999999px;
+  border: 1px solid var(--border);
+  background-color: var(--background);
+  color: var(--text-primary);
+  padding: 8px 24px;
+}
+
+.btn.btn--primary {
+  background-color: var(--highlight);
+  color: var(--background);
 }

@@ -1,0 +1,13 @@
+sg-title-animation {
+  width: 100%;
+}
+
+.title-animation__cell {
+  opacity: 0.3;
+  fill: var(--background-secondary);
+}
+
+.title-animation__word {
+  fill: var(--text-primary);
+  font-size: 80px;
+}
