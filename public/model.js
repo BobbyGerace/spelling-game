@@ -6,7 +6,7 @@ export class Model {
   constructor(letters, words, foundWords = []) {
     this.letters = letters;
     this.words = words;
-    this.foundWords = this.foundWords;
+    this.foundWords = foundWords;
 
     this.writeToStorage();
   }
@@ -94,9 +94,8 @@ export class Model {
       return null;
     }
 
-    const { letters, totalWords, totalPoints, foundWords } =
-      JSON.parse(savedGame);
+    const { letters, words, foundWords } = JSON.parse(savedGame);
 
-    return new Model(letters, totalWords, totalPoints, foundWords);
+    return new Model(letters, words, foundWords);
   }
 }

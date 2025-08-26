@@ -98,8 +98,10 @@ export class Game extends HTMLElement {
   };
 
   handleSubmitPress = () => {
-    this.model.submit();
     this.inputField.clear();
+    const result = this.model.submit();
+
+    console.log(result);
   };
 
   static register() {
