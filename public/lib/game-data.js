@@ -36,6 +36,9 @@ export class GameData {
     const wordsPromise = fetch("/dictionary.csv").then((res) => res.text());
     const gamesPromise = fetch("/game_stats.csv").then((res) => res.text());
 
+    // Simulate long load time
+    // await new Promise((resolve) => setTimeout(resolve, 10000));
+
     const [wordsStr, gamesStr] = await Promise.all([
       wordsPromise,
       gamesPromise,
@@ -43,6 +46,10 @@ export class GameData {
 
     cachedWordList = parseWords(wordsStr);
     cachedGameList = parseGames(gamesStr);
+  }
+
+  static finishedLoading() {
+    return cachedGameList && cachedWordList;
   }
 
   static randomGame() {

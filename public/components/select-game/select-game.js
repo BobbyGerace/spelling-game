@@ -5,14 +5,8 @@ export class SelectGame extends HTMLElement {
   async connectedCallback() {
     this.renderTitle();
     this.renderMenu();
-    this.renderLoading();
 
-    // Better than having a super quick flash
-    const wait = new Promise((resolve) => setTimeout(resolve, 750));
-
-    await Promise.all([GameData.preloadDataBank(), wait]);
-
-    this.loadComplete();
+    this.loadPromise = GameData.preloadDataBank();
   }
 
   renderTitle() {
@@ -22,32 +16,34 @@ export class SelectGame extends HTMLElement {
   }
 
   renderMenu() {
-    this.menu = h(
-      "div",
-      { class: "select-game__menu", style: { display: "none" } },
-      [
-        h(
-          "button",
-          {
-            class: "btn btn--primary",
-            onclick: this.handleRandomGame.bind(this),
-          },
-          "Random Game",
-        ),
-        h(
-          "button",
-          {
-            class: "btn",
-          },
-          "Select Letters",
-        ),
-      ],
-    );
+    this.menu = h("div", { class: "select-game__menu" }, [
+      h(
+        "button",
+        {
+          class: "btn btn--primary",
+          onclick: this.handleRandomGame.bind(this),
+        },
+        "Random Game",
+      ),
+      h(
+        "button",
+        {
+          class: "btn",
+        },
+        "Select Letters",
+      ),
+    ]);
 
     this.appendChild(this.menu);
   }
 
-  handleRandomGame() {
+  async handleRandomGame() {
+    if (!GameData.finishedLoading()) {
+      this.menu.remove();
+      this.renderLoading();
+      await this.loadPromise;
+    }
+
     [...this.children].forEach((c) => this.removeChild(c));
     this.renderGame(GameData.randomGame());
   }

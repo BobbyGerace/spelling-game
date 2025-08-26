@@ -2,12 +2,43 @@ sg-title-animation {
   width: 100%;
 }
 
+.title-animation__cell-group {
+  animation: fade-in 5s;
+}
+
 .title-animation__cell {
   opacity: 0.3;
   fill: var(--background-secondary);
+  animation-name: pulse;
+  animation-iteration-count: infinite;
+  animation-duration: 27s;
 }
 
 .title-animation__word {
   fill: var(--text-primary);
   font-size: 80px;
+}
+
+@keyframes pulse {
+  0%,
+  20%,
+  100% {
+    opacity: 0.3;
+    fill: var(--background-secondary);
+  }
+
+  10% {
+    /* opacity: 0.5; */
+    fill: var(--highlight);
+  }
+}
+
+@keyframes fade-in {
+  from {
+    opacity: 0;
+  }
+
+  to {
+    opacity: 1;
+  }
 }

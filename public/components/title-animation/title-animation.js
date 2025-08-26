@@ -20,13 +20,21 @@ export class TitleAnimation extends HTMLElement {
 
     this.cells = this.drawCells(coords);
 
+    this.cellGroup = hs(
+      "g",
+      { class: "title-animation__cell-group" },
+      this.cells,
+    );
+
+    this.setAnimDelays(this.cells);
+
     this.svg = hs(
       "svg",
       {
         viewBox: "0 0 600 300",
       },
       [
-        ...this.cells,
+        this.cellGroup,
         hs(
           "text",
           { class: "title-animation__word", x: 80, y: 160 },
@@ -46,8 +54,6 @@ export class TitleAnimation extends HTMLElement {
         pos.push([i, j]);
       }
     }
-
-    this.active = new Set(pos.map(([r, c]) => `${r},${c}`));
 
     return [
       ["2", "4"],
@@ -97,19 +103,26 @@ export class TitleAnimation extends HTMLElement {
       d,
       class: classes("title-animation__cell"),
       stroke: "none",
-      onclick: () => {
-        let key = `${row},${col}`;
-        if (this.active.has(key)) {
-          path.style.opacity = 0;
-          this.active.delete(key);
-        } else {
-          path.style.opacity = 1;
-          this.active.add(key);
-        }
-      },
     });
 
     return path;
+  }
+
+  setAnimDelays(cells) {
+    // Let's not mutate the arguments
+    cells = [...cells];
+
+    // Shuffle
+    for (let i = cells.length - 1; i > 0; i--) {
+      const randIdx = Math.floor(Math.random() * i);
+
+      [cells[randIdx], cells[i]] = [cells[i], cells[randIdx]];
+    }
+
+    this.cells.forEach((cell, i) => {
+      const fuzzFactor = Math.round(Math.random() * 100) / 100 - 0.5;
+      cell.style.animationDelay = i + fuzzFactor + "s";
+    });
   }
 
   static register() {
