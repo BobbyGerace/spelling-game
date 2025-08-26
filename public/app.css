@@ -38,9 +38,14 @@ body {
 .btn {
   border-radius: 999999px;
   border: 1px solid var(--border);
+  cursor: pointer;
   background-color: var(--background);
   color: var(--text-primary);
   padding: 8px 24px;
+}
+
+.btn:hover {
+  filter: brightness(120%);
 }
 
 .btn.btn--primary {

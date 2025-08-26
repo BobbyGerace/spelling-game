@@ -1,8 +1,19 @@
 import { GameData } from "../../lib/game-data.js";
 import { h } from "../../lib/h.js";
+import { Model } from "../../model.js";
 
 export class SelectGame extends HTMLElement {
   async connectedCallback() {
+    const existingGameModel = Model.fromStorage();
+
+    if (!existingGameModel) {
+      this.showStartScreen();
+    } else {
+      this.startGame(existingGameModel);
+    }
+  }
+
+  showStartScreen() {
     this.renderTitle();
     this.renderMenu();
 
@@ -45,7 +56,8 @@ export class SelectGame extends HTMLElement {
     }
 
     [...this.children].forEach((c) => this.removeChild(c));
-    this.renderGame(GameData.randomGame());
+    const gameData = GameData.randomGame();
+    this.startGame(new Model(gameData.letters, gameData.wordList));
   }
 
   renderLoading() {
@@ -58,10 +70,18 @@ export class SelectGame extends HTMLElement {
     this.menu.style.display = "flex";
   }
 
-  renderGame(gameData) {
+  startGame(model) {
     const game = h("sg-game");
-    game.gameData = gameData;
+    game.model = model;
     this.appendChild(game);
+
+    const leaveListener = () => {
+      game.removeEventListener("leave-game", leaveListener);
+      game.remove();
+      this.showStartScreen();
+    };
+
+    game.addEventListener("leave-game", leaveListener);
   }
 
   static register() {

@@ -24,6 +24,14 @@ export class InputField extends HTMLElement {
     this.appendChild(span);
   }
 
+  backspace() {
+    this.children[this.children.length - 1].remove();
+  }
+
+  clear() {
+    [...this.children].forEach((c) => c.remove());
+  }
+
   static register() {
     customElements.define("sg-input-field", InputField);
   }
