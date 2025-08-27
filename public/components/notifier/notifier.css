@@ -1,0 +1,24 @@
+sg-notifier {
+  min-height: 50px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.notifier__message {
+  animation-name: slow-rise;
+  animation-duration: 0.5s;
+  animation-timing-function: ease-out;
+}
+
+@keyframes slow-rise {
+  from {
+    opacity: 0;
+    transform: translateY(8px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}

@@ -37,6 +37,11 @@ export class Model {
         success: false,
         reason: "Missing central letter",
       };
+    } else if (this.foundWords.includes(word)) {
+      result = {
+        success: false,
+        reason: "Already found",
+      };
     } else if (this.words.includes(word)) {
       this.foundWords.push(word);
 

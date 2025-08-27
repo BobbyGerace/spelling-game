@@ -3,6 +3,7 @@
 @import "./components/input-field/input-field.css";
 @import "./components/title-animation/title-animation.css";
 @import "./components/select-game/select-game.css";
+@import "./components/notifier/notifier.css";
 @import "./components/game/game.css";
 
 :root {

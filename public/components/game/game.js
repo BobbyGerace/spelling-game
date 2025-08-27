@@ -20,6 +20,9 @@ export class Game extends HTMLElement {
     });
     this.appendChild(this.inputField);
 
+    this.notifier = h("sg-notifier");
+    this.appendChild(this.notifier);
+
     this.letterButtons = h("sg-letter-buttons", {
       letters: this.model.letters,
     });
@@ -101,7 +104,7 @@ export class Game extends HTMLElement {
     this.inputField.clear();
     const result = this.model.submit();
 
-    console.log(result);
+    this.notifier.showSubmitResult(result);
   };
 
   static register() {
