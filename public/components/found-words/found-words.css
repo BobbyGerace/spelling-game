@@ -1,0 +1,24 @@
+sg-found-words {
+  max-width: 100%;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  line-height: 1em;
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  padding: 16px;
+  margin-bottom: 32px;
+  position: relative;
+}
+
+.found-words__title {
+  position: absolute;
+  top: -18px;
+  background: var(--background);
+  padding: 8px;
+}
+
+.found-words__word.found-words__word--pangram {
+  color: var(--highlight);
+  font-weight: bold;
+}

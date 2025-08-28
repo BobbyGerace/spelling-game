@@ -49,6 +49,7 @@ export class Model {
         success: true,
         points: this.points(word),
         isPangram: this.isPangram(word),
+        word,
       };
     } else {
       result = {

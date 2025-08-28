@@ -5,6 +5,7 @@
 @import "./components/select-game/select-game.css";
 @import "./components/notifier/notifier.css";
 @import "./components/game/game.css";
+@import "./components/found-words/found-words.css";
 
 :root {
   --background: #14171d;

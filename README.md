@@ -9,3 +9,10 @@ This is a personal learning project—I'm trying out JS modules and web componen
 - [Common English Lexicon](https://github.com/Fj00/CEL), the source of the word list
 - [Plain Vanilla Web](https://plainvanillaweb.com/), inspiration for many of the patterns employed here
 - And of course the original game
+
+# TODO
+
+- [ ] Show found words
+- [ ] Create score bar
+- [ ] Do something special when all words are found
+- [ ] Allow user to select letters arbitrarily

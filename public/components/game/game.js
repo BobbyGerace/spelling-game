@@ -15,6 +15,12 @@ export class Game extends HTMLElement {
   }
 
   render() {
+    this.foundWords = h("sg-found-words", {
+      "total-words": this.model.words.length,
+    });
+    this.foundWords.addWords(...this.model.foundWords);
+    this.appendChild(this.foundWords);
+
     this.inputField = h("sg-input-field", {
       "central-letter": this.model.letters[0],
     });
@@ -73,6 +79,7 @@ export class Game extends HTMLElement {
 
     if (result.success) {
       this.inputField.happyClear();
+      this.foundWords.addWords(result.word);
     } else {
       this.inputField.sadClear();
     }
