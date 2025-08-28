@@ -52,6 +52,34 @@ export class Game extends HTMLElement {
     );
   }
 
+  appendLetter(letter) {
+    const accepted = this.model.inputLetter(letter);
+    if (accepted) {
+      this.inputField.appendLetter(letter);
+    }
+  }
+
+  deleteLetter() {
+    if (this.model.input.length > 0) {
+      this.model.backspace();
+      this.inputField.backspace();
+    }
+  }
+
+  submitAnswer() {
+    if (this.model.input.length === 0) return;
+
+    const result = this.model.submit();
+
+    if (result.success) {
+      this.inputField.happyClear();
+    } else {
+      this.inputField.sadClear();
+    }
+
+    this.notifier.showSubmitResult(result);
+  }
+
   bindListeners() {
     this.letterButtons.addEventListener(
       "letter-button-pressed",
@@ -61,6 +89,7 @@ export class Game extends HTMLElement {
     this.deleteButton.addEventListener("click", this.handleDeletePress);
     this.shuffleButton.addEventListener("click", this.handleShufflePress);
     this.submitButton.addEventListener("click", this.handleSubmitPress);
+    document.body.addEventListener("keydown", this.handleKeydown);
   }
 
   unbindListeners() {
@@ -71,15 +100,12 @@ export class Game extends HTMLElement {
     this.backButton.removeEventListener("click", this.handleBackButtonPress);
     this.deleteButton.removeEventListener("click", this.handleDeletePress);
     this.shuffleButton.removeEventListener("click", this.handleShufflePress);
-    this.submitButton.addEventListener("click", this.handleSubmitPress);
+    this.submitButton.removeEventListener("click", this.handleSubmitPress);
+    document.body.removeEventListener("keydown", this.handleKeydown);
   }
 
   handleLetterButtonPress = (event) => {
-    const letter = event.detail.letter;
-    const accepted = this.model.inputLetter(letter);
-    if (accepted) {
-      this.inputField.appendLetter(letter);
-    }
+    this.appendLetter(event.detail.letter);
   };
 
   handleBackButtonPress = () => {
@@ -90,10 +116,7 @@ export class Game extends HTMLElement {
   };
 
   handleDeletePress = () => {
-    if (this.model.input.length > 0) {
-      this.model.backspace();
-      this.inputField.backspace();
-    }
+    this.deleteLetter();
   };
 
   handleShufflePress = () => {
@@ -101,15 +124,19 @@ export class Game extends HTMLElement {
   };
 
   handleSubmitPress = () => {
-    const result = this.model.submit();
+    this.submitAnswer();
+  };
 
-    if (result.success) {
-      this.inputField.happyClear();
-    } else {
-      this.inputField.sadClear();
+  handleKeydown = (event) => {
+    const { key } = event;
+
+    if (key.length === 1) {
+      this.appendLetter(key.toUpperCase());
+    } else if (key === "Backspace") {
+      this.deleteLetter();
+    } else if (key === "Enter") {
+      this.submitAnswer();
     }
-
-    this.notifier.showSubmitResult(result);
   };
 
   static register() {
