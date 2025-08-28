@@ -21,7 +21,7 @@ export class Notifier extends HTMLElement {
     this.clear();
 
     this.appendChild(h("div", { class: "notifier__message" }, message));
-    this.timeout = setTimeout(this.clear.bind(this), 2000);
+    this.timeout = setTimeout(this.clear.bind(this), 1500);
   }
 
   clear() {

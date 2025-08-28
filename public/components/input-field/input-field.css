@@ -22,8 +22,73 @@ sg-input-field::after {
   color: var(--highlight);
 }
 
+.input-field__letter.input-field__letter--happy {
+  animation: happy-letter;
+  animation-duration: 0.5s;
+  animation-timing-function: ease-out;
+}
+
+.input-field__letter.input-field__letter--happy {
+  animation: happy-letter;
+  animation-duration: 0.2s;
+  animation-timing-function: ease-out;
+  animation-direction: alternate;
+  animation-iteration-count: 2;
+}
+
+.input-field__letter.input-field__letter--sad {
+  animation-name: shake;
+  animation-duration: 1.5s; /* Adjust for faster or slower shake */
+  animation-timing-function: ease-in-out;
+}
+
 @keyframes blink {
   50% {
     opacity: 0;
+  }
+}
+
+@keyframes happy-letter {
+  from {
+    transform: translateY(0);
+  }
+  to {
+    transform: translateY(-12px);
+  }
+}
+
+@keyframes shake {
+  0% {
+    transform: translateX(0);
+  }
+  10% {
+    transform: translateX(-5px);
+  }
+  20% {
+    transform: translateX(5px);
+  }
+  30% {
+    transform: translateX(-5px);
+  }
+  40% {
+    transform: translateX(5px);
+  }
+  50% {
+    transform: translateX(-5px);
+  }
+  60% {
+    transform: translateX(5px);
+  }
+  70% {
+    transform: translateX(-5px);
+  }
+  80% {
+    transform: translateX(5px);
+  }
+  90% {
+    transform: translateX(-5px);
+  }
+  100% {
+    transform: translateX(0);
   }
 }

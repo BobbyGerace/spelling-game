@@ -101,8 +101,13 @@ export class Game extends HTMLElement {
   };
 
   handleSubmitPress = () => {
-    this.inputField.clear();
     const result = this.model.submit();
+
+    if (result.success) {
+      this.inputField.happyClear();
+    } else {
+      this.inputField.sadClear();
+    }
 
     this.notifier.showSubmitResult(result);
   };

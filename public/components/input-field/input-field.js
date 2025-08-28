@@ -32,6 +32,40 @@ export class InputField extends HTMLElement {
     [...this.children].forEach((c) => c.remove());
   }
 
+  happyClear() {
+    const children = [...this.children];
+
+    children.forEach((c, i) => {
+      c.classList.add("input-field__letter--happy");
+      c.style.animationDelay = `${i / 20}s`;
+    });
+
+    this.withTimeout(
+      () => {
+        children.forEach((c) => c.remove());
+      },
+      (children.length * 1000) / 20 + 1000,
+    );
+  }
+
+  sadClear() {
+    const children = [...this.children];
+
+    children.forEach((c, i) => {
+      c.classList.add("input-field__letter--sad");
+    });
+
+    this.withTimeout(() => {
+      children.forEach((c) => c.remove());
+    }, 2000);
+  }
+
+  withTimeout(fn, delay) {
+    clearTimeout(this.timeout);
+
+    this.timeout = setTimeout(fn, delay);
+  }
+
   static register() {
     customElements.define("sg-input-field", InputField);
   }
