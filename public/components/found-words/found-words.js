@@ -4,10 +4,14 @@ import { h } from "../../lib/h.js";
 export class FoundWords extends HTMLElement {
   wordCount = 0;
   title = h("div", { class: "found-words__title" });
+  container = h("div", { class: "found-words__container" });
 
   connectedCallback() {
     this.render();
+    this.addEventListener("click", this.toggleExpand);
   }
+
+  disconnectedCallback() {}
 
   get totalWords() {
     return this.getAttribute("total-words");
@@ -15,13 +19,14 @@ export class FoundWords extends HTMLElement {
 
   render() {
     this.appendChild(this.title);
+    this.appendChild(this.container);
     this.update();
   }
 
   addWords(...args) {
     for (const arg of args) {
       const word = arg.toLowerCase();
-      this.prepend(
+      this.container.prepend(
         h(
           "span",
           {
@@ -29,7 +34,7 @@ export class FoundWords extends HTMLElement {
               "found-words__word--pangram": this.isPangram(word),
             }),
           },
-          word,
+          word + " ",
         ),
       );
 
@@ -42,6 +47,10 @@ export class FoundWords extends HTMLElement {
   update() {
     const titleText = `Found words: ${this.wordCount} / ${this.totalWords}`;
     this.title.textContent = titleText;
+  }
+
+  toggleExpand() {
+    this.container.classList.toggle("found-words__container--expanded");
   }
 
   isPangram(word) {

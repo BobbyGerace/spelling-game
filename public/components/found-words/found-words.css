@@ -1,14 +1,23 @@
 sg-found-words {
-  max-width: 100%;
-  display: flex;
-  flex-wrap: wrap;
-  gap: 8px;
-  line-height: 1em;
+  width: 100%;
   border: 1px solid var(--border);
   border-radius: 8px;
   padding: 16px;
   margin-bottom: 32px;
   position: relative;
+  cursor: pointer;
+}
+
+.found-words__container {
+  line-height: 1.5em;
+  min-height: 1.5em;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.found-words__container.found-words__container--expanded {
+  white-space: normal;
 }
 
 .found-words__title {
