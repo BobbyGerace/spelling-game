@@ -1,4 +1,4 @@
-# Spelling Game (WIP)
+# Spelling Game
 
 A clone of a popular word game written using vanilla HTML / JS / CSS.
 
@@ -15,7 +15,3 @@ This is a personal learning project—I'm trying out JS modules and web componen
 ```
 npx live-server public
 ```
-
-# TODO
-
-- [ ] Allow user to select letters arbitrarily
