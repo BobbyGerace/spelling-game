@@ -1,0 +1,3 @@
+# Word database files - excluded from Cursor index to keep context focused on code
+dictionary.csv
+game_stats.csv

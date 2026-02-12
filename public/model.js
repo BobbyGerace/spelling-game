@@ -78,6 +78,14 @@ export class Model {
     return new Set(word.split("")).size === 7;
   }
 
+  getScore() {
+    return this.foundWords.reduce((sum, word) => sum + this.points(word), 0);
+  }
+
+  getTotalPoints() {
+    return this.words.reduce((sum, word) => sum + this.points(word), 0);
+  }
+
   writeToStorage() {
     localStorage.setItem(
       STORAGE_KEY,

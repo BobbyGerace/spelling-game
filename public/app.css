@@ -6,6 +6,7 @@
 @import "./components/notifier/notifier.css";
 @import "./components/game/game.css";
 @import "./components/found-words/found-words.css";
+@import "./components/score-bar/score-bar.css";
 
 :root {
   --background: #14171d;

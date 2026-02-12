@@ -5,9 +5,11 @@ import { InputField } from "./components/input-field/input-field.js";
 import { TitleAnimation } from "./components/title-animation/title-animation.js";
 import { Notifier } from "./components/notifier/notifier.js";
 import { FoundWords } from "./components/found-words/found-words.js";
+import { ScoreBar } from "./components/score-bar/score-bar.js";
 
 document.addEventListener("DOMContentLoaded", () => {
   FoundWords.register();
+  ScoreBar.register();
   LetterButtons.register();
   InputField.register();
   Notifier.register();

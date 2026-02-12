@@ -1,0 +1,77 @@
+sg-score-bar {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  width: 100%;
+  margin-bottom: 24px;
+}
+
+.score-bar__score {
+  flex-shrink: 0;
+  font-weight: bold;
+  min-width: 2ch;
+}
+
+.score-bar__level {
+  flex-shrink: 0;
+  font-weight: bold;
+  text-align: right;
+  white-space: nowrap;
+}
+
+.score-bar__track {
+  flex: 1;
+  position: relative;
+  height: 12px;
+  background: var(--background-secondary);
+  border-radius: 9999px;
+  overflow: visible;
+}
+
+.score-bar__fill {
+  position: absolute;
+  left: 0;
+  top: 0;
+  bottom: 0;
+  width: 0%;
+  background: var(--highlight);
+  border-radius: 9999px;
+  transition: width 0.2s ease;
+}
+
+.score-bar__nodes {
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: 0;
+  bottom: 0;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  pointer-events: none;
+}
+
+.score-bar__node {
+  width: 24px;
+  height: 24px; /* twice the bar height (bar is 12px) */
+  border-radius: 50%;
+  background: var(--background-secondary); /* same as bar */
+  flex-shrink: 0;
+  margin: 0 -2px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.score-bar__node:first-child {
+  margin-left: 0;
+}
+
+.score-bar__node:last-child {
+  margin-right: 0;
+}
+
+.score-bar__node--reached {
+  background: var(--highlight);
+  border-color: var(--highlight);
+}

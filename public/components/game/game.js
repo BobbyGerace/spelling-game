@@ -15,6 +15,10 @@ export class Game extends HTMLElement {
   }
 
   render() {
+    this.scoreBar = h("sg-score-bar");
+    this.scoreBar.model = this.model;
+    this.appendChild(this.scoreBar);
+
     this.foundWords = h("sg-found-words", {
       "total-words": this.model.words.length,
     });
@@ -80,6 +84,7 @@ export class Game extends HTMLElement {
     if (result.success) {
       this.inputField.happyClear();
       this.foundWords.addWords(result.word);
+      this.scoreBar.update();
     } else {
       this.inputField.sadClear();
     }
