@@ -23,6 +23,36 @@ sg-game {
   outline: none;
 }
 
+.game__play-area {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 100%;
+}
+
+.game__play-area[hidden] {
+  display: none;
+}
+
+.game__wizard-message {
+  width: 100%;
+  text-align: center;
+  padding: 48px 24px;
+  margin-bottom: 24px;
+}
+
+.game__wizard-message[hidden] {
+  display: none;
+}
+
+.game__wizard-message__text {
+  font-size: clamp(2rem, 8vw, 4rem);
+  font-weight: bold;
+  letter-spacing: 0.02em;
+  color: var(--highlight);
+  line-height: 1.2;
+}
+
 .game__action-buttons {
   display: flex;
   gap: 16px;
