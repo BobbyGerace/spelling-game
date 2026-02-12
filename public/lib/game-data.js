@@ -8,7 +8,7 @@ export class GameData {
     this.totalPoints = totalPoints;
     this.wordList = this.discoverWords();
 
-    if (this.wordList.length !== totalWords) {
+    if (totalWords > 0 && this.wordList.length !== totalWords) {
       console.warn(
         `Word list does not match expected length. Expected ${this.totalWords} but got ${this.wordList.length}`,
       );
@@ -50,6 +50,17 @@ export class GameData {
 
   static finishedLoading() {
     return cachedGameList && cachedWordList;
+  }
+
+  static fromLetters(letters) {
+    if (!cachedWordList) {
+      throw new Error("Dictionary not loaded");
+    }
+    const normalized = letters.trim().toUpperCase();
+    if (normalized.length !== 7) {
+      throw new Error("Must provide exactly 7 letters");
+    }
+    return new GameData(normalized, 0, 0);
   }
 
   static randomGame() {

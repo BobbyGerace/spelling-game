@@ -40,6 +40,7 @@ export class SelectGame extends HTMLElement {
         "button",
         {
           class: "btn",
+          onclick: this.handleSelectLetters.bind(this),
         },
         "Select Letters",
       ),
@@ -58,6 +59,38 @@ export class SelectGame extends HTMLElement {
     [...this.children].forEach((c) => this.removeChild(c));
     const gameData = GameData.randomGame();
     this.startGame(new Model(gameData.letters, gameData.wordList));
+  }
+
+  async handleSelectLetters() {
+    if (!GameData.finishedLoading()) {
+      this.menu.remove();
+      this.renderLoading();
+      await this.loadPromise;
+    }
+
+    const raw = window.prompt(
+      "Enter 7 letters (first letter is the central letter):",
+      "",
+    );
+    if (raw == null || raw === "") return;
+
+    const letters = raw.trim().toUpperCase().replace(/\s+/g, "");
+    if (letters.length !== 7) {
+      window.alert("Please enter exactly 7 letters.");
+      return;
+    }
+    if (!/^[A-Z]+$/.test(letters)) {
+      window.alert("Please use only letters A–Z.");
+      return;
+    }
+
+    try {
+      const gameData = GameData.fromLetters(letters);
+      [...this.children].forEach((c) => this.removeChild(c));
+      this.startGame(new Model(gameData.letters, gameData.wordList));
+    } catch (e) {
+      window.alert(e.message || "Could not start game.");
+    }
   }
 
   renderLoading() {
