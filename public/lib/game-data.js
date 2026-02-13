@@ -33,8 +33,8 @@ export class GameData {
   static async preloadDataBank() {
     if (cachedGameList && cachedWordList) return;
 
-    const wordsPromise = fetch("../dictionary.csv").then((res) => res.text());
-    const gamesPromise = fetch("../game_stats.csv").then((res) => res.text());
+    const wordsPromise = fetch("/dictionary.csv").then((res) => res.text());
+    const gamesPromise = fetch("/game_stats.csv").then((res) => res.text());
 
     // Simulate long load time
     // await new Promise((resolve) => setTimeout(resolve, 10000));
